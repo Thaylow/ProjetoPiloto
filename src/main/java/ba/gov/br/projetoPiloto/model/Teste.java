@@ -2,6 +2,8 @@ package ba.gov.br.projetoPiloto.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -17,6 +19,7 @@ public class Teste {
 	@Id
 	@Column(name="TABLE_TESTE_ID")
 	@JsonInclude(value=Include.NON_NULL)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TABLE_TESTE_SEQ")
 	private Long id;
 	
 	@Column(name="TABLE_TESTE_DESCRICAO")

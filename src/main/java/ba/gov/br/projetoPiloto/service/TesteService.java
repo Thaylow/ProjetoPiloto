@@ -43,7 +43,7 @@ public class TesteService {
     
     public void excluir(Long id) {
     	
-    	this.repository.delete(id);
+    	this.repository.deleteById(id);
     	
     }    
 

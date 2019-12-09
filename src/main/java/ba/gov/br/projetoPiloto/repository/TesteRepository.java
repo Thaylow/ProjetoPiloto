@@ -8,5 +8,7 @@ import ba.gov.br.projetoPiloto.model.Teste;
 public interface TesteRepository extends JpaRepository<Teste, Long>{
 	
 	public Teste findOneById(Long Id);
+
+	public void deleteById(Long id);
 	
 }

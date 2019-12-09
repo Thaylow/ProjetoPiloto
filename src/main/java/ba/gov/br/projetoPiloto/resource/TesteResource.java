@@ -72,6 +72,20 @@ public class TesteResource {
 		
 	}
 	
+	
+	@RequestMapping(value="/editar/{id}" , method=RequestMethod.PUT)
+	public ResponseEntity<List<Teste>>  editar(@PathVariable("id") Long id) {
+
+		Teste teste = new Teste();
+		teste.setId(id);
+		teste.setDescricao("Alterando a descrição da categoria " + id);
+		service.salvar(teste);
+		List<Teste> listaTestes = this.service.listar();
+		
+		return ResponseEntity.ok(listaTestes);
+
+	}
+	
 	@DeleteMapping(value = "delete/{id}")
 	@Transactional
     public ResponseEntity<List<Teste>>  delete(@PathVariable("id") Long id)  {

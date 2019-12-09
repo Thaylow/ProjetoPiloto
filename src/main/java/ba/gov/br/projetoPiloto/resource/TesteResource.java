@@ -40,7 +40,7 @@ public class TesteResource {
 	
 
 	@CrossOrigin
-	@GetMapping
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<Teste>> listarTodosTeste() {
 		
 		//  GET
@@ -55,7 +55,7 @@ public class TesteResource {
 	}
 
 	
-	@RequestMapping(value="/salvar", method=RequestMethod.POST)
+	@RequestMapping(value="/salvar", method=RequestMethod.POST  ,produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<Teste>> salvar(){
 
 		//  POST
@@ -73,7 +73,7 @@ public class TesteResource {
 	}
 	
 	
-	@RequestMapping(value="/editar/{id}" , method=RequestMethod.PUT)
+	@RequestMapping(value="/editar/{id}" , method=RequestMethod.PUT , produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<Teste>>  editar(@PathVariable("id") Long id) {
 
 		Teste teste = new Teste();

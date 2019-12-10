@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ba.gov.br.projetoPiloto.exception.MensagemException;
 import ba.gov.br.projetoPiloto.model.Teste;
 import ba.gov.br.projetoPiloto.repository.TesteRepository;
 
@@ -19,10 +18,6 @@ public class TesteService {
 		
 		Teste teste = this.repository.findOneById(id);
 		
-		if (teste == null) {
-			throw new MensagemException("Teste não encontrado.");
-		}
-
 		return teste;
 	}
 	

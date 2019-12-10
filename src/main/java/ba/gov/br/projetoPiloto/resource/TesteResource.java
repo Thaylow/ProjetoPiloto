@@ -2,23 +2,18 @@ package ba.gov.br.projetoPiloto.resource;
 
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ba.gov.br.projetoPiloto.exception.MensagemException;
 import ba.gov.br.projetoPiloto.model.Teste;
 import ba.gov.br.projetoPiloto.service.TesteService;
 
@@ -31,70 +26,66 @@ public class TesteResource {
 
 	@CrossOrigin
 	@GetMapping(value = "/{id}",  produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Teste> obter(@PathVariable("id") Long id) {
+	public Teste obter(@PathVariable("id") Long id) {
+		
+		Teste teste =this.service.findOneById(id);
+		
+		if (teste == null) {
+			throw new MensagemException("Teste não encontrado.");
+		}
 
-		Teste teste = this.service.findOneById(id);
-
-		return ResponseEntity.status(HttpStatus.OK).body(teste);
+		return teste;
 	}
 	
 
 	@CrossOrigin
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<Teste>> listarTodosTeste() {
-		
-		//  GET
-		//http://localhost:8080/ProjetoPiloto-0.0.1-SNAPSHOT/teste/
+	public List<Teste> listarTodosTeste() {
 
-		List<Teste> listaTeste = this.service.listar();
-
-		CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.MINUTES);
-
-		return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(listaTeste);
+		return this.service.listar();
 
 	}
 
 	
-	@RequestMapping(value="/salvar", method=RequestMethod.POST  ,produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<Teste>> salvar(){
+	@GetMapping(value="/salvar", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public List<Teste> salvar(){
 
-		//  POST
-		//http://localhost:8080/ProjetoPiloto-0.0.1-SNAPSHOT/teste/salvar
-		
 		Teste teste = new Teste();
 		teste.setDescricao("Testando Método POST");
 		
 		teste = service.salvar(teste);
 		
-		List<Teste> listaTestes = this.service.listar();
-		
-		return ResponseEntity.ok(listaTestes);
+		return this.service.listar();
 		
 	}
 	
 	
-	@RequestMapping(value="/editar/{id}" , method=RequestMethod.PUT , produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<Teste>>  editar(@PathVariable("id") Long id) {
+	@GetMapping(value="/editar/{id}" ,produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Teste editar(@PathVariable("id") Long id) {
 
 		Teste teste = new Teste();
-		teste.setId(id);
-		teste.setDescricao("Alterando a descrição da categoria " + id);
-		service.salvar(teste);
-		List<Teste> listaTestes = this.service.listar();
+		teste = this.service.findOneById(id);
 		
-		return ResponseEntity.ok(listaTestes);
+		if(teste != null) {
+			teste.setDescricao("Alterando a descrição da categoria " + id);
+			service.salvar(teste);
+			teste = this.service.findOneById(id);
+		} else {
+			throw new MensagemException("Teste não encontrado.");
+		}
+		
+		return teste;
 
 	}
 	
-	@DeleteMapping(value = "delete/{id}")
+	@GetMapping(value = "delete/{id}",produces = { MediaType.APPLICATION_JSON_VALUE })
 	@Transactional
-    public ResponseEntity<List<Teste>>  delete(@PathVariable("id") Long id)  {
+    public List<Teste>  delete(@PathVariable("id") Long id)  {
 		
 		service.excluir(id);
 		
-		List<Teste> listaTestes = this.service.listar();
 		
-		return ResponseEntity.ok(listaTestes);
+		return this.service.listar();
     }
 	
 }

@@ -1,4 +1,4 @@
-package ba.gov.br.projetoPiloto.model;
+package ba.gov.br.projetoPiloto.entidade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

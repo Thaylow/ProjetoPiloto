@@ -1,4 +1,4 @@
-package ba.gov.br.projetoPiloto.resource;
+package ba.gov.br.projetoPiloto.controller;
 
 
 import java.util.List;
@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ba.gov.br.projetoPiloto.entidade.Teste;
 import ba.gov.br.projetoPiloto.exception.MensagemException;
-import ba.gov.br.projetoPiloto.model.Teste;
 import ba.gov.br.projetoPiloto.service.TesteService;
 
 @RestController
 @RequestMapping("/teste")
-public class TesteResource {
+public class TesteController {
 
 	@Autowired
 	TesteService service;
